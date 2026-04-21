@@ -15,18 +15,16 @@
 static const int G_W = 100;
 static const int G_H = 30;
 
-// ─────────────────────────────────────────────
 // Helper: detect function type
-// ─────────────────────────────────────────────
+
 bool contains(const std::string& expr, const std::vector<std::string>& keys) {
     for (const auto& k : keys)
         if (expr.find(k) != std::string::npos) return true;
     return false;
 }
 
-// ─────────────────────────────────────────────
 // ASCII GRAPH
-// ─────────────────────────────────────────────
+
 void asciiPlot(const std::vector<Point>& pts,
                const std::string& expr,
                double xMin, double xMax) {
@@ -57,7 +55,7 @@ void asciiPlot(const std::vector<Point>& pts,
 
     std::vector<std::string> grid(G_H, std::string(G_W, ' '));
 
-    // ── Y-axis (x = 0)
+    //  Y-axis 
     int axisCol = -1;
     if (xMin <= 0 && xMax >= 0) {
         axisCol = static_cast<int>((0.0 - xMin) / (xMax - xMin) * (G_W - 1));
@@ -68,7 +66,7 @@ void asciiPlot(const std::vector<Point>& pts,
         }
     }
 
-    // ── X-axis (y = 0)
+    // X-axis 
     if (yMin <= 0 && yMax >= 0) {
         int axisRow = G_H - 1 - static_cast<int>((0.0 - yMin) / (yMax - yMin) * (G_H - 1));
         axisRow = std::max(0, std::min(G_H - 1, axisRow));
@@ -79,7 +77,7 @@ void asciiPlot(const std::vector<Point>& pts,
         }
     }
 
-    // ── Plot points
+    // Plot points
     for (const auto& p : pts) {
         int col = static_cast<int>((p.x - xMin) / (xMax - xMin) * (G_W - 1));
         int row = G_H - 1 - static_cast<int>((p.y - yMin) / (yMax - yMin) * (G_H - 1));
@@ -90,7 +88,7 @@ void asciiPlot(const std::vector<Point>& pts,
         grid[row][col] = '*';
     }
 
-    // ── Print graph
+    //  Print graph
     std::cout << "\n  y = " << expr << "\n";
     std::cout << std::string(G_W + 4, '-') << "\n";
     std::cout << "  y\n";
@@ -130,9 +128,8 @@ void asciiPlot(const std::vector<Point>& pts,
     std::cout << std::string(G_W + 4, '-') << "\n\n";
 }
 
-// ─────────────────────────────────────────────
 // PIPELINE
-// ─────────────────────────────────────────────
+
 void runPipeline(const std::string& expr) {
     try {
         Tokenizer tok;
@@ -183,9 +180,9 @@ void runPipeline(const std::string& expr) {
     }
 }
 
-// ─────────────────────────────────────────────
+
 // MAIN
-// ─────────────────────────────────────────────
+
 int main() {
 
     std::cout << R"(
