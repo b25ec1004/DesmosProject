@@ -2,11 +2,11 @@
 #include "tokenizer.h"
 #include <vector>
 
-// ─────────────────────────────────────────────
+
 //  PARSER
-//  Converts infix token list → postfix (RPN)
+//  Converts infix token list to postfix 
 //  using the Shunting Yard Algorithm
-// ─────────────────────────────────────────────
+
 class Parser {
 public:
     // Returns postfix token list; throws std::runtime_error on bad expression
