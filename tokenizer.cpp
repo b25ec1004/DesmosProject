@@ -5,7 +5,7 @@
 #include <set>
 #include <map>
 
-// ── All supported functions ───────────────────────────────────────────────────
+// All supported functions 
 static const std::set<std::string> KNOWN_FUNCS = {
     // Trig
     "sin", "cos", "tan",
@@ -22,7 +22,7 @@ static const std::set<std::string> KNOWN_FUNCS = {
     "abs", "ceil", "floor", "sign"
 };
 
-// ── Built-in constants ────────────────────────────────────────────────────────
+// Built-in constants
 static const std::map<std::string, double> CONSTANTS = {
     {"pi", M_PI},
     {"e",  M_E}
@@ -32,7 +32,7 @@ bool   Tokenizer::isFunc(const std::string& s)         { return KNOWN_FUNCS.coun
 bool   Tokenizer::isConstant(const std::string& s)     { return CONSTANTS.count(s) > 0; }
 double Tokenizer::constantValue(const std::string& s)  { return CONSTANTS.at(s); }
 
-// ─────────────────────────────────────────────
+
 //  IMPLICIT MULTIPLICATION INSERTION
 //
 //  Handles cases like:
@@ -48,7 +48,7 @@ double Tokenizer::constantValue(const std::string& s)  { return CONSTANTS.at(s);
 //    A is NUMBER, VARIABLE, CONSTANT, or RPAREN
 //    AND
 //    B is VARIABLE, CONSTANT, FUNC, or LPAREN
-// ─────────────────────────────────────────────
+
 std::vector<Token> Tokenizer::insertImplicitMultiply(const std::vector<Token>& tokens) {
     std::vector<Token> result;
     for (size_t i = 0; i < tokens.size(); ++i) {
@@ -76,19 +76,19 @@ std::vector<Token> Tokenizer::insertImplicitMultiply(const std::vector<Token>& t
     return result;
 }
 
-// ─────────────────────────────────────────────
+
 //  MAIN TOKENIZE
-// ─────────────────────────────────────────────
+]
 std::vector<Token> Tokenizer::tokenize(const std::string& expr) {
     std::vector<Token> tokens;
     size_t i = 0, len = expr.size();
 
     while (i < len) {
 
-        // ── Whitespace ────────────────────────────────────────────────
+        // Whitespace
         if (std::isspace(expr[i])) { ++i; continue; }
 
-        // ── Number ────────────────────────────────────────────────────
+        //  Number
         if (std::isdigit(expr[i]) || expr[i] == '.') {
             std::string num;
             bool hasDot = false;
@@ -103,7 +103,7 @@ std::vector<Token> Tokenizer::tokenize(const std::string& expr) {
             continue;
         }
 
-        // ── Named token: function, constant, or variable x ───────────
+        // Named token: function, constant, or variable x 
         if (std::isalpha(expr[i])) {
             std::string name;
             while (i < len && std::isalpha(expr[i])) name += expr[i++];
@@ -120,7 +120,7 @@ std::vector<Token> Tokenizer::tokenize(const std::string& expr) {
             continue;
         }
 
-        // ── Operators ─────────────────────────────────────────────────
+        //  Operators 
         if (expr[i]=='+' || expr[i]=='-' ||
             expr[i]=='*' || expr[i]=='/' || expr[i]=='^') {
 
@@ -135,7 +135,7 @@ std::vector<Token> Tokenizer::tokenize(const std::string& expr) {
             continue;
         }
 
-        // ── Parentheses ───────────────────────────────────────────────
+        // Parentheses 
         if (expr[i] == '(') { tokens.push_back(Token::makeLParen()); ++i; continue; }
         if (expr[i] == ')') { tokens.push_back(Token::makeRParen()); ++i; continue; }
 
@@ -144,6 +144,6 @@ std::vector<Token> Tokenizer::tokenize(const std::string& expr) {
 
     if (tokens.empty()) throw std::runtime_error("Empty expression");
 
-    // ── Insert implicit multiplication ────────────────────────────────
+    // Insert implicit multiplication 
     return insertImplicitMultiply(tokens);
 }
