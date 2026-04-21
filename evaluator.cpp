@@ -4,9 +4,9 @@
 #include <stdexcept>
 #include <limits>
 
-// ─────────────────────────────────────────────
+
 //  BINARY OPERATOR APPLICATION
-// ─────────────────────────────────────────────
+
 static double applyOp(char op, double a, double b) {
     switch (op) {
         case '+': return a + b;
@@ -22,12 +22,12 @@ static double applyOp(char op, double a, double b) {
     }
 }
 
-// ─────────────────────────────────────────────
+
 //  FUNCTION APPLICATION
 //  Supports: trig, inverse trig, hyperbolic,
 //            exp, ln, log, log2,
-//            sqrt, cbrt, abs, ceil, floor, sign
-// ─────────────────────────────────────────────
+//            sqrt, cbrt, abs
+
 static double applyFunc(const std::string& name, double v) {
     // ── Trigonometric ─────────────────────────
     if (name == "sin")   return std::sin(v);
@@ -77,9 +77,7 @@ static double applyFunc(const std::string& name, double v) {
     throw std::runtime_error("Unknown function: " + name);
 }
 
-// ─────────────────────────────────────────────
-//  POSTFIX (RPN) EVALUATION
-// ─────────────────────────────────────────────
+//  POSTFIX EVALUATION
 double Evaluator::evaluate(const std::vector<Token>& postfix, double xVal) {
     std::stack<double> s;
 
@@ -127,9 +125,8 @@ double Evaluator::evaluate(const std::vector<Token>& postfix, double xVal) {
     return s.top();
 }
 
-// ─────────────────────────────────────────────
 //  POINT GENERATION  — loop x over [min, max]
-// ─────────────────────────────────────────────
+
 std::vector<Point> Evaluator::generatePoints(
     const std::vector<Token>& postfix,
     double xMin, double xMax, double step)
