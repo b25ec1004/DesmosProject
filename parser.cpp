@@ -2,10 +2,10 @@
 #include <stack>
 #include <stdexcept>
 
-// ─────────────────────────────────────────────
+
 //  Operator precedence table
 //  Higher number = higher precedence
-// ─────────────────────────────────────────────
+
 int Parser::precedence(char op) {
     switch (op) {
         case '+': case '-': return 1;
@@ -15,15 +15,13 @@ int Parser::precedence(char op) {
     }
 }
 
-// Only ^ is right-associative (e.g. 2^3^2 = 2^(3^2))
+// Only ^ is right-associative 
 bool Parser::isRightAssoc(char op) {
     return op == '^';
 }
 
-// ─────────────────────────────────────────────
+
 //  Shunting Yard Algorithm
-//  Ref: https://en.wikipedia.org/wiki/Shunting-yard_algorithm
-//
 //  Rules:
 //  • Numbers / variables   → output queue directly
 //  • Functions             → operator stack
@@ -31,7 +29,7 @@ bool Parser::isRightAssoc(char op) {
 //                            and associativity, then push
 //  • '('                   → push onto operator stack
 //  • ')'                   → pop stack to output until matching '('
-// ─────────────────────────────────────────────
+
 std::vector<Token> Parser::toPostfix(const std::vector<Token>& infix) {
     std::vector<Token> output;       // RPN result
     std::stack<Token>  opStack;      // operator / function stack
@@ -40,19 +38,19 @@ std::vector<Token> Parser::toPostfix(const std::vector<Token>& infix) {
 
         switch (tok.type) {
 
-            // ── Operands go straight to output ───────────────────────
+            //  Operands go straight to output
             case TokenType::NUMBER:
             case TokenType::VARIABLE:
             case TokenType::CONSTANT:
                 output.push_back(tok);
                 break;
 
-            // ── Functions pushed onto op stack ────────────────────────
+            // Functions pushed onto op stack
             case TokenType::FUNC:
                 opStack.push(tok);
                 break;
 
-            // ── Operators ─────────────────────────────────────────────
+            //  Operators 
             case TokenType::OPERATOR: {
                 while (!opStack.empty()) {
                     const Token& top = opStack.top();
@@ -78,12 +76,12 @@ std::vector<Token> Parser::toPostfix(const std::vector<Token>& infix) {
                 break;
             }
 
-            // ── Left parenthesis → push ───────────────────────────────
+            //Left parenthesis -> push
             case TokenType::LPAREN:
                 opStack.push(tok);
                 break;
 
-            // ── Right parenthesis → pop until matching '(' ────────────
+            // Right parenthesis -> pop until matching closed 
             case TokenType::RPAREN: {
                 bool foundLeft = false;
                 while (!opStack.empty()) {
@@ -105,7 +103,7 @@ std::vector<Token> Parser::toPostfix(const std::vector<Token>& infix) {
         }
     }
 
-    // ── Drain remaining operators ─────────────────────────────────────
+    // Drain remaining operators 
     while (!opStack.empty()) {
         Token top = opStack.top();
         opStack.pop();
