@@ -35,6 +35,6 @@ private:
     bool   isFunc(const std::string& s);
     bool   isConstant(const std::string& s);
     double constantValue(const std::string& s);
-    // Inserts implicit '*' where needed (e.g. 3x, 2(x+1), (x+1)(x-1))
+    // Inserts implicit '*' where needed
     std::vector<Token> insertImplicitMultiply(const std::vector<Token>& tokens);
 };
